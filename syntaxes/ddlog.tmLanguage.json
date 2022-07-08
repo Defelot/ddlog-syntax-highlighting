@@ -1,32 +1,183 @@
 {
-	"$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
-	"name": "Differential Datalog",
-	"patterns": [
-		{
-			"include": "#keywords"
-		},
-		{
-			"include": "#strings"
-		}
-	],
-	"repository": {
-		"keywords": {
-			"patterns": [{
-				"name": "keyword.control.ddlog",
-				"match": "\\b(if|while|for|return)\\b"
-			}]
-		},
-		"strings": {
-			"name": "string.quoted.double.ddlog",
-			"begin": "\"",
-			"end": "\"",
-			"patterns": [
-				{
-					"name": "constant.character.escape.ddlog",
-					"match": "\\\\."
-				}
-			]
-		}
-	},
-	"scopeName": "source.ddlog"
+  "name": "Differential Datalog",
+  "patterns": [
+    {
+      "include": "#keywords"
+    },
+    {
+      "include": "#strings"
+    },
+    {
+      "include": "#numbers"
+    },
+    {
+      "include": "#comments"
+    }
+  ],
+  "repository": {
+    "keywords": {
+      "patterns": [
+        {
+          "name": "keyword.control.ddlog",
+          "match": "\\b(mut|break|continue|return|and|extern|function|apply|transformer|not|or|input|index|on|output|relation|stream|multiset|match|var|let|switch|FlatMap|Aggregate|import|as|primary|key|group_by)\\b"
+        },
+        {
+          "name": "keyword.todo.ddlog",
+          "match": "\\b(contained|TODO|FIXME|XXX)\\b"
+        },
+        {
+          "name": "keyword.control.conditional.dlConditional.ddlog",
+          "match": "\\b(if|else|for|in)\\b"
+        },
+        {
+          "name": "constant.language.boolean.ddlog",
+          "match": "\\b(true|false)\\b"
+        },
+        {
+          "name": "support.type.ddlog",
+          "match": "\\b(bool|istring|string|bigint|bit|signed|Group|type|typedef)\\b"
+        }
+      ]
+    },
+
+    "strings": {
+      "name": "string.ddlog",
+      "patterns": [
+        {
+          "name": "string.quoted.template.ddlog",
+          "begin": "\"",
+          "end": "\"",
+          "patterns": [
+            {
+              "name": "constant.character.escape.ddlog",
+              "match": "\\\\."
+            },
+            { "include": "#interpolated_ddlog" }
+          ]
+        },
+        {
+          "begin": "\\[\\|",
+          "beginCaptures": {
+            "0": {
+              "name": "string.raw.begin.ddlog"
+            }
+          },
+          "end": "\\|\\]",
+          "endCaptures": {
+            "0": {
+              "name": "string.raw.end.ddlog"
+            }
+          },
+          "name": "string.raw.ddlog"
+        },
+        {
+          "begin": "\\$\\[\\|",
+          "beginCaptures": {
+            "0": {
+              "name": "string.raw.interp.begin.ddlog"
+            }
+          },
+          "end": "\\|\\]",
+          "endCaptures": {
+            "0": {
+              "name": "string.raw.interp.end.ddlog"
+            }
+          },
+          "name": "string.raw.template.ddlog",
+          "patterns": [{ "include": "#interpolated_ddlog" }]
+        }
+      ]
+    },
+    "numbers": {
+      "name": "number.ddlog",
+      "patterns": [
+        {
+          "name": "constant.numeric.binary.ddlog",
+          "match": "\\b(\\d*')[sS]?[bB]\\s*([0-1]+)\\b"
+        },
+        {
+          "name": "constant.numeric.ocatal.ddlog",
+          "match": "\\b(\\d*')[sS]?[oO]\\s*([0-7]+)\\b"
+        },
+        {
+          "name": "constant.numeric.decimal.ddlog",
+          "match": "\\b(\\d*')[sS]?[dD]\\s*([0-9]+)\\b"
+        },
+        {
+          "name": "constant.numeric.hex.ddlog",
+          "match": "\\b(\\d*')[sS]?[hH]\\s*([0-9a-fA-F]+)\\b"
+        },
+        { "name": "constant.numeric.plain.ddlog", "match": "\\b\\d+\\b" }
+      ]
+    },
+    "comments": {
+      "name": "comment.ddlog",
+      "patterns": [
+        {
+          "begin": "//",
+          "beginCaptures": {
+            "0": {
+              "name": "punctuation.definition.comment.ddlog"
+            }
+          },
+          "end": "$",
+          "name": "comment.line.double-slash.ddlog"
+        },
+        {
+          "begin": "/\\*",
+          "beginCaptures": {
+            "0": {
+              "name": "punctuation.definition.comment.begin.js"
+            }
+          },
+          "end": "\\*/",
+          "endCaptures": {
+            "0": {
+              "name": "punctuation.definition.comment.end.js"
+            }
+          },
+          "name": "comment.block.js"
+        }
+      ]
+    },
+    "interpolated_ddlog": {
+      "patterns": [
+        {
+          "begin": "\\${",
+          "captures": {
+            "0": {
+              "name": "punctuation.section.embedded.ddlog"
+            }
+          },
+          "end": "}",
+          "name": "source.ddlog.embedded.source",
+          "patterns": [
+            {
+              "begin": "{",
+              "beginCaptures": {
+                "0": {
+                  "name": "meta.brace.curly.ddlog"
+                }
+              },
+              "end": "}",
+              "endCaptures": {
+                "0": {
+                  "name": "meta.brace.curly.ddlog"
+                }
+              },
+              "patterns": [
+                {
+                  "include": "$self"
+                }
+              ]
+            },
+            {
+              "include": "$self"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "scopeName": "source.ddlog"
 }

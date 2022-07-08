@@ -1,25 +1,34 @@
 {
-    "name": "ddlog-syntax-highlighting",
-    "displayName": "DDlog Syntax Highlighting",
-    "description": "Enables syntax highlighting for DDlog",
-    "version": "0.0.1",
-    "engines": {
-        "vscode": "^1.68.0"
-    },
-    "categories": [
-        "Programming Languages"
+  "name": "ddlog-syntax-highlighting",
+  "displayName": "DDlog Syntax Highlighting",
+  "description": "Enables syntax highlighting for DDlog",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.68.0"
+  },
+  "categories": [
+    "Programming Languages"
+  ],
+  "contributes": {
+    "languages": [
+      {
+        "id": "ddlog",
+        "aliases": [
+          "Differential Datalog",
+          "ddlog"
+        ],
+        "extensions": [
+          ".dl"
+        ],
+        "configuration": "./language-configuration.json"
+      }
     ],
-    "contributes": {
-        "languages": [{
-            "id": "ddlog",
-            "aliases": ["Differential Datalog", "ddlog"],
-            "extensions": [".dl"],
-            "configuration": "./language-configuration.json"
-        }],
-        "grammars": [{
-            "language": "ddlog",
-            "scopeName": "source.ddlog",
-            "path": "./syntaxes/ddlog.tmLanguage.json"
-        }]
-    }
+    "grammars": [
+      {
+        "language": "ddlog",
+        "scopeName": "source.ddlog",
+        "path": "./syntaxes/ddlog.tmLanguage.json"
+      }
+    ]
+  }
 }
